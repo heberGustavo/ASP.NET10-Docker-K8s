@@ -1,4 +1,6 @@
 using ASP.NET10_Docker_K8s.Service;
+using ASP.NET10_Docker_K8s.Service.Implementation;
+using ASP.NET10_Docker_K8s.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<MathService>(); // Apenas uma instância para toda a aplicação
+builder.Services.AddScoped<IPersonServices, PersonServices>(); // Uma instância por request
 
 var app = builder.Build();
 
