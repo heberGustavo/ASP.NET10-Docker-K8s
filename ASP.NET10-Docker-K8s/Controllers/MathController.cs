@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ASP.NET10_Docker_K8s.Service;
+using ASP.NET10_Docker_K8s.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET10_Docker_K8s.Controllers
@@ -7,11 +9,18 @@ namespace ASP.NET10_Docker_K8s.Controllers
     [ApiController]
     public class MathController : ControllerBase
     {
+        private readonly MathService _mathService;
+
+        public MathController(MathService mathService)
+        {
+            _mathService = mathService;
+        }
+
         [HttpGet("sum/{firstNumber}/{secondNumber}")]
         public ActionResult Sum(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
-                return Ok(ConvertDecimal(firstNumber) + ConvertDecimal(secondNumber));
+            if(NumberHelper.IsNumeric(firstNumber) && NumberHelper.IsNumeric(secondNumber))
+                return Ok(_mathService.Sum(NumberHelper.ConvertDecimal(firstNumber), NumberHelper.ConvertDecimal(secondNumber)));
             
             return BadRequest("Invalid request!");
         }
@@ -19,8 +28,8 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpGet("sub/{firstNumber}/{secondNumber}")]
         public ActionResult Sub(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
-                return Ok(ConvertDecimal(firstNumber) - ConvertDecimal(secondNumber));
+            if(NumberHelper.IsNumeric(firstNumber) && NumberHelper.IsNumeric(secondNumber))
+                return Ok(_mathService.Sub(NumberHelper.ConvertDecimal(firstNumber), NumberHelper.ConvertDecimal(secondNumber)));
 
             return BadRequest("Invalid request!");
         }
@@ -28,8 +37,8 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpGet("mult/{firstNumber}/{secondNumber}")]
         public ActionResult Mult(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
-                return Ok(ConvertDecimal(firstNumber) * ConvertDecimal(secondNumber));
+            if(NumberHelper.IsNumeric(firstNumber) && NumberHelper.IsNumeric(secondNumber))
+                return Ok(_mathService.Mult(NumberHelper.ConvertDecimal(firstNumber), NumberHelper.ConvertDecimal(secondNumber)));
 
             return BadRequest("Invalid request!");
         }
@@ -37,8 +46,8 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpGet("div/{firstNumber}/{secondNumber}")]
         public ActionResult Div(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
-                return Ok(ConvertDecimal(firstNumber) / ConvertDecimal(secondNumber));
+            if(NumberHelper.IsNumeric(firstNumber) && NumberHelper.IsNumeric(firstNumber))
+                return Ok(_mathService.Div(NumberHelper.ConvertDecimal(firstNumber), NumberHelper.ConvertDecimal(secondNumber)));
 
             return BadRequest("Invalid request!");
         }
@@ -46,71 +55,20 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpGet("mean/{firstNumber}/{secondNumber}")]
         public ActionResult Mean(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
-                return Ok((ConvertDecimal(firstNumber) + ConvertDecimal(secondNumber)) / 2);
+            if(NumberHelper.IsNumeric(firstNumber) && NumberHelper.IsNumeric(secondNumber))
+                return Ok(_mathService.Mean(NumberHelper.ConvertDecimal(firstNumber), NumberHelper.ConvertDecimal(secondNumber)));
 
             return BadRequest("Invalid request!");
         }
 
-        [HttpGet("sqrt/{firstNumber}/{secondNumber}")]
+        [HttpGet("sqrt/{number}")]
         public ActionResult Sqrt(string number)
         {
-            if(IsNumeric(number))
-                return Ok(Math.Sqrt(ConvertDouble(number)));
+            if(NumberHelper.IsNumeric(number))
+                return Ok(_mathService.Sqrt(NumberHelper.ConvertDouble(number)));
 
             return BadRequest("Invalid request!");
         }
 
-        #region Private Methods 
-        
-        private bool IsNumeric(string strNumber)
-        {
-            decimal decimalValue;
-
-            bool isNumber = decimal.TryParse(
-                strNumber, 
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.NumberFormatInfo.InvariantInfo,
-                out decimalValue
-            );
-
-            return isNumber;
-        }
-
-        private decimal ConvertDecimal(string strNumber)
-        {
-            decimal decimalValue;
-
-            if(decimal.TryParse(
-                strNumber, 
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.NumberFormatInfo.InvariantInfo,
-                out decimalValue
-            ))
-            {
-                return decimalValue;
-            }
-
-            return 0;
-        }
-
-        private double ConvertDouble(string strNumber)
-        {
-            double doubleValue;
-
-            if (double.TryParse(
-                strNumber,
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.NumberFormatInfo.InvariantInfo,
-                out doubleValue
-            ))
-            {
-                return doubleValue;
-            }
-
-            return 0;
-        }
-
-        #endregion
     }
 }
