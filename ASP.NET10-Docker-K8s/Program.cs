@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<MathService>(); // Apenas uma instância para toda a aplicação
 builder.Services.AddScoped<IPersonServices, PersonServices>(); // Uma instância por request
 
 var app = builder.Build();
