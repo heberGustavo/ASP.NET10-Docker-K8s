@@ -1,18 +1,15 @@
-using ASP.NET10_Docker_K8s.Service;
+using ASP.NET10_Docker_K8s.Configurations;
 using ASP.NET10_Docker_K8s.Service.Implementation;
 using ASP.NET10_Docker_K8s.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
 builder.Services.AddScoped<IPersonServices, PersonServices>(); // Uma instância por request
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
