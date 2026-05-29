@@ -7,4 +7,8 @@
     <RootNamespace>ASP.NET10_Docker_K8s</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="ScriptsDB\" />
+  </ItemGroup>
+
 </Project>
