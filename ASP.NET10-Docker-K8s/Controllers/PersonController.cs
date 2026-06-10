@@ -9,22 +9,27 @@ namespace ASP.NET10_Docker_K8s.Controllers
     [Route("api/[controller]")]
     public class PersonController : ControllerBase
     {
+        private readonly ILogger<PersonController> _logger;
         private readonly IPersonServices _personServices;
 
-        public PersonController(IPersonServices personServices)
+        public PersonController(IPersonServices personServices, ILogger<PersonController> logger)
         {
             _personServices = personServices;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult FindAll()
         {
+            _logger.LogInformation("Find all Person");
             return Ok(_personServices.FindAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult FindById(long id)
         {
+            _logger.LogInformation("Find Person by id {id}", id);
+
             if(id <= 0) 
                 return BadRequest("Invalid request!");
 
@@ -38,6 +43,8 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Person person)
         {
+            _logger.LogInformation("Creating new Person: {firstName}", person.FirstName);
+
             var createdPerson = _personServices.Create(person);
             if(createdPerson == null) 
                 return BadRequest("Invalid request!");
@@ -48,6 +55,8 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] Person person)
         {
+            _logger.LogInformation("Updating Person: {id}", person.Id);
+
             var updatePerson = _personServices.Update(person);
             if(updatePerson == null) return NotFound("Person not found!");
 
@@ -57,6 +66,7 @@ namespace ASP.NET10_Docker_K8s.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            _logger.LogInformation("Deleting Person: {id}", id);
             _personServices.Delete(id);
             return NoContent();
         }

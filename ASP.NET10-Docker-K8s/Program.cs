@@ -4,6 +4,8 @@ using ASP.NET10_Docker_K8s.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddSerilogLogging();
+
 builder.Services.AddControllers();
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
