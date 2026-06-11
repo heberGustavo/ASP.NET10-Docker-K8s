@@ -67,6 +67,10 @@ namespace ASP.NET10_Docker_K8s.Controllers
         public IActionResult Delete(long id)
         {
             _logger.LogInformation("Deleting Person: {id}", id);
+
+            var personFound = _personServices.FindById(id);
+            if(personFound == null) return NotFound("Person not found!");
+
             _personServices.Delete(id);
             return NoContent();
         }
