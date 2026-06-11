@@ -1,53 +1,41 @@
 ﻿using ASP.NET10_Docker_K8s.Model;
-using ASP.NET10_Docker_K8s.Model.Context;
+using ASP.NET10_Docker_K8s.Repositories;
 using ASP.NET10_Docker_K8s.Service.Interface;
 
 namespace ASP.NET10_Docker_K8s.Service.Implementation
 {
     public class PersonServices : IPersonServices
     {
-        private MSSQLContext _context;
+        private readonly IPersonRepository _repository;
 
-        public PersonServices(MSSQLContext context)
+        public PersonServices(IPersonRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public List<Person> FindAll()
         {
-            return _context.Persons.ToList();
+            return _repository.FindAll();
         }
 
         public Person FindById(long id)
         {
-            return _context.Persons.Find(id);
+            return _repository.FindById(id);
         }
 
         public Person Create(Person person)
         {
-            _context.Persons.Add(person);
-            _context.SaveChanges();
-            return person;
+            return _repository.Create(person);
         }
 
         public Person Update(Person person)
         {
-            var personFound = FindById(person.Id);
-            if(personFound == null) return null;
-
-            _context.Entry(personFound).CurrentValues.SetValues(person);
-            _context.SaveChanges();
-            return person;
+            return _repository.Update(person);
         }
 
         public void Delete(long id)
         {
-            var personFound = FindById(id);
-            if (personFound == null) return;
-
-            _context.Persons.Remove(personFound);
-            _context.SaveChanges();
-            return;
+            _repository.Delete(id);
         }
 
     }
