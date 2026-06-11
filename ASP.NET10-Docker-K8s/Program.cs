@@ -14,7 +14,10 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
 
 builder.Services.AddScoped<IPersonServices, PersonServices>(); // Uma instância por request
+builder.Services.AddScoped<IBookServices, BookServices>();
+
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
