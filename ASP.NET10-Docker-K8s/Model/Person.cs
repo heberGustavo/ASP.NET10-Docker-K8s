@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ASP.NET10_Docker_K8s.Model.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASP.NET10_Docker_K8s.Model
 {
     [Table("person")]
-    public class Person
+    public class Person : BaseEntity
     {
         public Person() { }
 
@@ -16,11 +17,6 @@ namespace ASP.NET10_Docker_K8s.Model
             Address = address;
             Gender = gender;
         }
-
-        [Key]
-        [Column("id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; } = 0;
 
         [Required]
         [Column("first_name", TypeName = "varchar(80)")]

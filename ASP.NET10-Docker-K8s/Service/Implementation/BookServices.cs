@@ -6,9 +6,9 @@ namespace ASP.NET10_Docker_K8s.Service.Implementation
 {
     public class BookServices : IBookServices
     {
-        private readonly IBookRepository _repository;
+        private readonly IRepository<Book> _repository;
 
-        public BookServices(IBookRepository repository)
+        public BookServices(IRepository<Book> repository)
         {
             _repository = repository;
         }

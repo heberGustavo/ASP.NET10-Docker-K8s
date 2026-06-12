@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ASP.NET10_Docker_K8s.Model.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASP.NET10_Docker_K8s.Model
 {
     [Table("books")]
-    public class Book
+    public class Book : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
         [Column("title", TypeName = "varchar(max)")]
         public string Title { get; set; } = string.Empty;
 

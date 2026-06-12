@@ -6,9 +6,9 @@ namespace ASP.NET10_Docker_K8s.Service.Implementation
 {
     public class PersonServices : IPersonServices
     {
-        private readonly IPersonRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public PersonServices(IPersonRepository repository)
+        public PersonServices(IRepository<Person> repository)
         {
             _repository = repository;
         }
