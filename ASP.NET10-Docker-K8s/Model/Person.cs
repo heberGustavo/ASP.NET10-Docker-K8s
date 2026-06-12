@@ -7,17 +7,6 @@ namespace ASP.NET10_Docker_K8s.Model
     [Table("person")]
     public class Person : BaseEntity
     {
-        public Person() { }
-
-        public Person(long id, string firstName, string lastName, string address, string gender)
-        {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Address = address;
-            Gender = gender;
-        }
-
         [Required]
         [Column("first_name", TypeName = "varchar(80)")]
         [MaxLength(80)]

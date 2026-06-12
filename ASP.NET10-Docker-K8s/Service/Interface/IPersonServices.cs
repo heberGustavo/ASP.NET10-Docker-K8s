@@ -1,13 +1,13 @@
-﻿using ASP.NET10_Docker_K8s.Model;
+﻿using ASP.NET10_Docker_K8s.Data.DTO;
 
 namespace ASP.NET10_Docker_K8s.Service.Interface
 {
     public interface IPersonServices
     {
-        List<Person> FindAll();
-        Person FindById(long id);
-        Person Create(Person person);
-        Person Update(Person person);
+        List<PersonDTO> FindAll();
+        PersonDTO FindById(long id);
+        PersonDTO Create(PersonDTO person);
+        PersonDTO Update(PersonDTO person);
         void Delete(long id);
     }
 }

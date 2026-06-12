@@ -1,6 +1,5 @@
-﻿using ASP.NET10_Docker_K8s.Model;
+﻿using ASP.NET10_Docker_K8s.Data.DTO;
 using ASP.NET10_Docker_K8s.Service.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET10_Docker_K8s.Controllers
@@ -41,7 +40,7 @@ namespace ASP.NET10_Docker_K8s.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Person person)
+        public IActionResult Create([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Creating new Person: {firstName}", person.FirstName);
 
@@ -53,7 +52,7 @@ namespace ASP.NET10_Docker_K8s.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Person person)
+        public IActionResult Update([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Updating Person: {id}", person.Id);
 
